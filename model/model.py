@@ -1,3 +1,4 @@
+from database import DB_connect
 from database.DB_connect import get_connection
 from model.strumento import Strumento
 from model.prestito import Prestito
@@ -35,6 +36,21 @@ class DepositoStrumenti:
             Funzione che legge tutti gli strumenti nel database
             :return: una lista con tutti gli strumenti presenti oppure None
         """
+        connessione=get_connection()
+        cursore=connessione.cursor()
+        query="SELECT * FROM STRUMENTO"
+        cursore.execute(query)
+
+        strumenti=[]
+
+        for riga in cursore:
+            nuovo=Strumento(riga[0], riga[1], riga[2], riga[3], riga[4])
+            strumenti.append(nuovo)
+
+        cursore.close()
+        connessione.close()
+
+        return strumenti
         # TODO
 
     def cerca_strumenti_per_tipo(self, tipo) -> list[Strumento] | None:
