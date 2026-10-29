@@ -30,18 +30,18 @@ class Controller:
 
     # Altre Funzioni Event Handler
     # TODO
-    def mostra_strumenti(self,e):
-        strumenti=self._model.get_strumenti()
-        for i in strumenti:
-            self._view.lista_strumenti.controls.append(ft.Text(str(i)))
+    def mostra_strumenti(self,e): # funzione richiamata dal bottone self.mostra
+        strumenti=self._model.get_strumenti() # richiamo funzione get_strumenti nel model, che restiuisce una lista di strumenti
+        for i in strumenti: # per ogni strumento
+            self._view.lista_strumenti.controls.append(ft.Text(str(i))) # aggiungo lo strumento alla list view lista_strumenti definita nella view
 
     def cerca_strumenti(self, e):
-        try:
-            self._view.lista_strumenti_ricerca.controls.clear()
-            strumenti=self._model.cerca_strumenti_per_tipo(str(self._view.input_tipo_strumento.value))
+        try: # blocco per verificare presenza di ValueError
+            self._view.lista_strumenti_ricerca.controls.clear() # cancello i contenuti della list view lista_strumenti_ricerca per resettare i criteri
+            strumenti=self._model.cerca_strumenti_per_tipo(str(self._view.input_tipo_strumento.value)) # richiamo funzione nel model passando come paramentro il valore del textfield definito nella view (definendolo come stringa)
 
-            for i in strumenti:
-                self._view.lista_strumenti_ricerca.controls.append(ft.Text(str(i)))
+            for i in strumenti: # per ogni strumento
+                self._view.lista_strumenti_ricerca.controls.append(ft.Text(str(i))) # aggiungo alla list view lo strumento
 
         except ValueError as err:
-            self._view.show_alert(str(err))
+            self._view.show_alert(str(err)) # mostro messaggio di errore, definito nel model
