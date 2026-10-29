@@ -1,6 +1,7 @@
 import flet as ft
 from UI.view import View
 from model.model import DepositoStrumenti
+from UI.alert import AlertManager
 
 '''
     CONTROLLER:
@@ -34,3 +35,13 @@ class Controller:
         for i in strumenti:
             self._view.lista_strumenti.controls.append(ft.Text(str(i)))
 
+    def cerca_strumenti(self, e):
+        try:
+            self._view.lista_strumenti_ricerca.controls.clear()
+            strumenti=self._model.cerca_strumenti_per_tipo(str(self._view.input_tipo_strumento.value))
+
+            for i in strumenti:
+                self._view.lista_strumenti_ricerca.controls.append(ft.Text(str(i)))
+
+        except ValueError as err:
+            self._view.show_alert(str(err))

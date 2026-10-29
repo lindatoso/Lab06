@@ -50,7 +50,7 @@ class View:
         self.input_responsabile = ft.TextField(value=self.controller.get_responsabile(), label="Responsabile")
 
         # ListView per mostrare la lista di strumenti aggiornata
-        self.lista_strumenti = ft.ListView(expand=False, spacing=5, padding=10, auto_scroll=True)
+        self.lista_strumenti = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
         # TextField per ricerca strumento per tipo
         self.input_tipo_strumento = ft.TextField(label="Tipo")
@@ -65,6 +65,7 @@ class View:
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
         # TODO
         self.mostra=ft.Button("Mostra", on_click=self.controller.mostra_strumenti)
+        self.cerca=ft.Button("Cerca", on_click=self.controller.cerca_strumenti)
 
         # --- LAYOUT ---
         self.page.add(
@@ -90,9 +91,14 @@ class View:
             # TODO
 
             # Sezione 4
-            ft.Text("Cerca Strumento per Tipo", size=20)
+            ft.Text("Cerca Strumento per Tipo", size=20),
+            ft.Row(spacing=200,
+                   controls=[self.input_tipo_strumento, self.cerca],
+                   alignment=ft.MainAxisAlignment.CENTER),
+            self.lista_strumenti_ricerca
             # TODO
         )
+        self.page.update()
 
     def cambia_tema(self, e):
         self.page.theme_mode = ft.ThemeMode.DARK if self.toggle_cambia_tema.value else ft.ThemeMode.LIGHT

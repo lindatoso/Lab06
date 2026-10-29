@@ -38,7 +38,7 @@ class DepositoStrumenti:
         """
         connessione=get_connection()
         cursore=connessione.cursor()
-        query="SELECT * FROM STRUMENTO"
+        query=f"SELECT * FROM STRUMENTO"
         cursore.execute(query)
 
         strumenti=[]
@@ -59,4 +59,27 @@ class DepositoStrumenti:
             :param tipo: il tipo dello strumento (es. "Chitarra")
             :return: una lista con tutti gli strumenti del tipo indicato oppure None
         """
+        if tipo is None or tipo.strip()=="":
+            raise ValueError("Campo vuoto")
+
+        connessione = get_connection()
+        cursore = connessione.cursor()
+        query = f"""SELECT * 
+                    FROM STRUMENTO
+                    WHERE TIPO=%s"""
+        cursore.execute(query, (tipo,))
+
+        strumenti = []
+
+        for riga in cursore:
+            nuovo = Strumento(riga[0], riga[1], riga[2], riga[3], riga[4])
+            strumenti.append(nuovo)
+
+        cursore.close()
+        connessione.close()
+
+        if not strumenti:
+            raise ValueError(f"Nessuno strumento trovato per il tipo {tipo}")
+
+        return strumenti
         # TODO
